@@ -1,4 +1,60 @@
 function TGF_tiled(ComPoints, tiles, DetailedDEM, DetailedREF, MassDensity, TessDEM, TessREF,TessDensity, CoarseDEM, CoarseREF,CoarseDensity,GlobalDEM,GlobalREF, outname,ikind, itype,idensity, flag_earth,rzones, e)
+    % ---------------------- Input parameters -----------------------------------------
+    % ComPoints      --- in text format, list of number of points and triplet of the 
+    %                    spherical/ellipsoidal coordinates (lat[-90, 90], 
+    %                    lon [-180, 180], height [in meters])
+    % tiles          --- [tile_n_x,tile_n_y] , number of tiles in
+    %                    both latitude and longitude direction, e.g. [6,8]
+    %                    means 6 tiles along latitude, 8 along longitude,
+    %                    [1,1] for no tiling
+    % DetailedDEM    --- Detailed DEM, in GeoTiff format
+    % DetailedREF    --- RTM reference surface with same resolution as DetailedDEM
+    % MassDensity    --- Map of mass density values, same resolution as DetailedDEM
+    %                    Only used when not a constant value is selected. Unit g/cm^3
+    % TessDEM        --- DEM for tessroid zone
+    % TessREF        --- REF for tessroid zone
+    % TessDensity    --- mass density model for tessroid zone
+    % CoarseDEM      --- lower resolution DEM for far-zone 
+    % CoarseREF      --- lower resolution REF for far-zone 
+    % CoarseDensity  --- lower resolution mass density model for far-zone 
+    % GlobalDEM      --- Global DEM for full-scale topographic gravity field calculations   
+    % GlobalREF      --- Global reference DEM for full-scale topographic gravity field 
+    % calculations (mean sea level) In full-scale topographic gravity field calculations, 
+    % & constant density assumption is made in TGF software for GlobalDEM covred area.
+
+    % idensity  --- flag for mass density with values of 0, 1
+    %           --- 0, constant value is used
+    %           --- 1, density map is used
+
+    % ikind  --- flag for the type of modelling with values of 1, 2
+    %        --- 1, Topographic gravitational field
+    %        --- 2, RTM gravitational field 
+
+    % itype  --- Specification of field functionals with values of 0, 1, 2, 4, 10, 103, 104
+    %        --- 0, height anomaly / geoid height (N) in m  
+    %        --- 1, Dovs (arc-sec) and gravity disturbances (mGal)
+    %        --- 4, Dovs (arc-sec) and gravity anomaly (mGal)
+    %        --- 2, all gradients (6 elements) in E
+    %        --- 10, all functionals (geoid, Dovs, gravity disturbances, gradient tensor)
+    %        --- 103, geoid height, Dovs and gravity disturbance (mGal)
+    %        --- 104, geoid height (m), Dovs (arc-sec) and gravity anomaly (mGal)
+    
+    % rzones --- integral radius specifying the computation zones rzones = [r1 r2 r3 r4]
+    %        --- r1, radius for polyhedron (detailed DEM)
+    %        --- r2, radius for prism (detailed DEM)
+    %        --- r3, radius for tesseroid (Tesseroid DEM)
+    %        --- r4, radius for point-mass (coarse DEM)
+    
+    % flag_earth --- flag of earth approximation with values of 0, 1
+    %            --- 0, spherical approximation
+    %            --- 1, ellipsoidal approximation
+    
+    % e      --- mass density in g/cm^3 when constant density assumption is used
+    
+    % ------------------------ Output parameters --------------------------------------
+    % height anomaly in unit of meter, Dov in unit of arc-sec, dg in unit of
+    % mGal, gradients in unit of E
+
     output_report=strcat(outname,'_report.txt');  
     comPoints = load(ComPoints);
     lat = comPoints(:,2);
@@ -22,7 +78,7 @@ function TGF_tiled(ComPoints, tiles, DetailedDEM, DetailedREF, MassDensity, Tess
         end
     end
     %tiles = [2,2];
-    %% write output report --- parameter definition and computation point
+    % write output report --- parameter definition and computation point
     fid=fopen(output_report,'w');
     p='=========================    TGF_GUI project report   =========================';
     formatSpec='%s\n';
