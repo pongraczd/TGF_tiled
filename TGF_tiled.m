@@ -54,6 +54,10 @@ function TGF_tiled(ComPoints, tiles, DetailedDEM, DetailedREF, MassDensity, Tess
     % ------------------------ Output parameters --------------------------------------
     % height anomaly in unit of meter, Dov in unit of arc-sec, dg in unit of
     % mGal, gradients in unit of E
+    %------------------------------- Usage --------------------------------------------
+    %TGF_tiled(ComPoints, tiles, DetailedDEM, DetailedREF, MassDensity, TessDEM, TessREF,
+    % TessDensity, CoarseDEM, CoarseREF,CoarseDensity,GlobalDEM,GlobalREF, outname,ikind,
+    %  itype,idensity, flag_earth,rzones, e)
 
     output_report=strcat(outname,'_report.txt');  
     comPoints = load(ComPoints);
