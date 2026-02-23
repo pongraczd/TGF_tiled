@@ -1,0 +1,27 @@
+=========================    TGF_GUI project report   =========================
+
+              Generating_data:   23-Feb-2026
+                 Product_type:   RTM gravitational field
+                   Functional:         itype= 4 (please refer to handbook)
+           Gravity field type:         ikind= 2 (please refer to handbook)
+          Earth approximation:         iflag= 0 (please refer to handbook)
+      Four zones radius [deg]:   0.02,    0.03,    0.15,    0.50
+
+----------------------  computation point information  -----------------------
+
+                   comlat_min:   46.6144
+                   comlat_max:   46.8405
+                   comlon_min:   18.9639
+                   comlon_max:   19.3975
+ number of computation points:      1195
+
+-------------------------  integration information  --------------------------
+
+       Computation time[hour]:   0.02103
+
+             Output file name:   Output file: sample_results\sample_dg_topo.dat 
+
+------------------------------  Results Format  ------------------------------
+
+    lon    lat      H      N     xi    eta     dg
+  [deg]  [deg]    [m]    [m]    ["]    ["] [mGal]
