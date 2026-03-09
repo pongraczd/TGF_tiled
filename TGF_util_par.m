@@ -86,7 +86,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function TGF_util(ComPoints, DetailedDEM, DetailedREF, MassDensity, TessDEM, TessREF, TessDensity, CoarseDEM, CoarseREF, CoarseDensity,GlobalDEM,GlobalREF, outname,ikind, itype,idensity, flag_earth,rzones, e)
+function TGF_util_par(ComPoints, DetailedDEM, DetailedREF, MassDensity, TessDEM, TessREF, TessDensity, CoarseDEM, CoarseREF, CoarseDensity,GlobalDEM,GlobalREF, outname,ikind, itype,idensity, flag_earth,rzones, e)
 path=pwd;
 addpath('bin')  
 %R1=0.8; G1=0.8; B1=0.8;
@@ -437,8 +437,8 @@ size_com=m*n;
   [Vm, Vxm, Vym, Vzm, Vxxm, Vxym, Vxzm, Vyym, Vyzm, Vzzm] = matrix_preallocating(1,size_com);
   [V2, Vx2, Vy2, Vz2, Vxx2, Vxy2, Vxz2, Vyy2, Vyz2, Vzz2] = matrix_preallocating(1,size_com);
   [V3, Vx3, Vy3, Vz3, Vxx3, Vxy3, Vxz3, Vyy3, Vyz3, Vzz3] = matrix_preallocating(1,size_com); 
-%D = parallel.pool.DataQueue;
-%afterEach(D,@printIter);
+D = parallel.pool.DataQueue;
+afterEach(D,@printIter);
 IterFinished = 0;
 % compute all ten gravity field elements
 if itype==10
@@ -452,7 +452,7 @@ if itype==10
     fprintf('Computing outer zones (pure Matlab code) \n')
     fprintf('%6d/%6d\n',[IterFinished,size_com])
     
-    for i=1:size_com
+    parfor i=1:size_com
         lon=com_lon(i);
         lat=com_lat(i);
         r0=com_h(i);
@@ -625,8 +625,8 @@ if itype==10
            Vyz4(i)=0;
            Vzz4(i)=0;
         end
-        %send(D,i);
-        fprintf('\b\b\b\b\b\b\b\b\b\b\b\b\b%6d/%6d',[IterFinished,size_com]);
+        send(D,i);
+        %fprintf('\b\b\b\b\b\b\b\b\b\b\b\b\b%6d/%6d',[IterFinished,size_com]);
         IterFinished = IterFinished + 1;
         %if GUI==1
          %  text_process_step=strcat(text_process,num2str(i),'/',num2str(size_com),'were completed');
@@ -702,7 +702,7 @@ if itype==0
     disp('Computing outer zones (pure Matlab code)')
     fprintf('%6d/%6d\n',[IterFinished,size_com])
     %end
-    for i=1:size_com  
+    parfor i=1:size_com  
         lon=com_lon(i);
         lat=com_lat(i);
         r0=com_h(i);
@@ -823,8 +823,8 @@ if itype==0
        else
            V4(i)=0;
         end
-        %send(D,i);
-        fprintf('\b\b\b\b\b\b\b\b\b\b\b\b\b%6d/%6d',[IterFinished,size_com]);
+        send(D,i);
+        %fprintf('\b\b\b\b\b\b\b\b\b\b\b\b\b%6d/%6d',[IterFinished,size_com]);
         IterFinished = IterFinished + 1;
         %if GUI==1
         %   text_process_step=strcat(text_process,num2str(i),'/',num2str(size_com),'were completed');
@@ -895,7 +895,7 @@ if itype==103 | itype==104 | itype==4
     disp('Computing outer zones (pure Matlab code)')
     fprintf('%6d/%6d\n',[IterFinished,size_com])
     %end
-    for i=1:size_com
+    parfor i=1:size_com
         lon=com_lon(i);
         lat=com_lat(i);
         r0=com_h(i);
@@ -1038,8 +1038,8 @@ if itype==103 | itype==104 | itype==4
            Vy4(i)=0;
            Vz4(i)=0; 
         end
-        %send(D,i);
-        fprintf('\b\b\b\b\b\b\b\b\b\b\b\b\b%6d/%6d',[IterFinished,size_com]);
+        send(D,i);
+        %fprintf('\b\b\b\b\b\b\b\b\b\b\b\b\b%6d/%6d',[IterFinished,size_com]);
         IterFinished = IterFinished + 1;
         %if GUI==1
          %  text_process_step=strcat(text_process,num2str(i),'/',num2str(size_com),'were completed');
@@ -1108,7 +1108,7 @@ if itype==1
     disp('Computing outer zones (pure Matlab code)')
     fprintf('%6d/%6d\n',[IterFinished,size_com])
     %end
-    for i=1:size_com
+    parfor i=1:size_com
         lon=com_lon(i);
         lat=com_lat(i);
         r0=com_h(i);
@@ -1242,8 +1242,8 @@ if itype==1
            Vy4(i)=0;
            Vz4(i)=0; 
         end
-        %send(D,i);
-        fprintf('\b\b\b\b\b\b\b\b\b\b\b\b\b%6d/%6d',[IterFinished,size_com]);
+        send(D,i);
+        %fprintf('\b\b\b\b\b\b\b\b\b\b\b\b\b%6d/%6d',[IterFinished,size_com]);
         IterFinished = IterFinished + 1;
         %if GUI==1
         %   text_process_step=strcat(text_process,num2str(i),'/',num2str(size_com),'were completed');
@@ -1305,7 +1305,7 @@ if itype==2
     disp('Computing outer zones (pure Matlab code)')
     fprintf('%6d/%6d\n',[IterFinished,size_com])
     %end
-    for i=1:size_com
+    parfor i=1:size_com
         lon=com_lon(i);
         lat=com_lat(i);
         r0=com_h(i);
@@ -1454,8 +1454,8 @@ if itype==2
            Vyz4(i)=0;
            Vzz4(i)=0;
         end
-        %send(D,i);
-        fprintf('\b\b\b\b\b\b\b\b\b\b\b\b\b%6d/%6d',[IterFinished,size_com]);
+        send(D,i);
+        %fprintf('\b\b\b\b\b\b\b\b\b\b\b\b\b%6d/%6d',[IterFinished,size_com]);
         IterFinished = IterFinished + 1;
         %if GUI==1
         %   text_process_step=strcat(text_process,num2str(i),'/',num2str(size_com),'were completed');
@@ -1502,16 +1502,11 @@ cd(path)
 
               
 
-%function printIter(~)
-%        IterFinished = IterFinished + 1;
-%        if GUI==0
-%        fprintf('\b\b\b\b\b\b\b\b\b\b\b\b\b%6d/%6d',[IterFinished,size_com]);
-%        else
-%            text_process_step=strcat(text_process,num2str(IterFinished),'/',num2str(size_com),'were completed');
-%            set(findobj('tag','process'),'string',text_process_step); drawnow;
-%        end
-%
-%end
+function printIter(~)
+        IterFinished = IterFinished + 1;
+        fprintf('\b\b\b\b\b\b\b\b\b\b\b\b\b%6d/%6d',[IterFinished,size_com]);
+
+end
 
 end
 
@@ -1929,7 +1924,7 @@ lon_p=x1_grid(1,1:end);
 size_com=m*n;  % number of computation point
 
 [V, Vx, Vy, Vz, Vxx, Vxy, Vxz, Vyy, Vyz, Vzz] = matrix_preallocating(1,size_com);
-for i=1:size_com
+parfor i=1:size_com
   lon=Dov_lon(i);
   lat=Dov_lat(i);
   r0=Dov_h(i);
@@ -2086,7 +2081,7 @@ lon_p=x1_grid(1,1:end);
 size_com=m*n;    
 [V, Vx, Vy, Vz, Vxx, Vxy, Vxz, Vyy, Vyz, Vzz] = matrix_preallocating(1,size_com);
 
-for i=1:size_com
+parfor i=1:size_com
   lon=Dov_lon(i);
   lat=Dov_lat(i);
   r0=Dov_h(i);
@@ -2234,7 +2229,7 @@ size_com=m*n;
 
 
 [V, Vx, Vy, Vz, Vxx, Vxy, Vxz, Vyy, Vyz, Vzz] = matrix_preallocating(1,size_com);
-for i=1:size_com
+parfor i=1:size_com
   lon=Dov_lon(i);
   lat=Dov_lat(i);
   r0=Dov_h(i);
@@ -2385,7 +2380,7 @@ lon_p=x1_grid(1,1:end);
 size_com=m*n;
 
 [V, Vx, Vy, Vz, Vxx, Vxy, Vxz, Vyy, Vyz, Vzz] = matrix_preallocating(1,size_com);
-for i=1:size_com
+parfor i=1:size_com
   lon=Dov_lon(i);
   lat=Dov_lat(i);
   r0=Dov_h(i);
@@ -2536,7 +2531,7 @@ lon_p=x1_grid(1,1:end);
 size_com=m*n;
 
 [V, Vx, Vy, Vz, Vxx, Vxy, Vxz, Vyy, Vyz, Vzz] = matrix_preallocating(1,size_com);
-for i=1:size_com
+parfor i=1:size_com
   lon=Dov_lon(i);
   lat=Dov_lat(i);
   r0=Dov_h(i);

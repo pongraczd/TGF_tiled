@@ -1,6 +1,6 @@
 =========================    TGF_GUI project report   =========================
 
-              Generating_data:   23-Feb-2026
+              Generating_data:   02-Mar-2026
                  Product_type:   RTM gravitational field
                    Functional:         itype= 4 (please refer to handbook)
            Gravity field type:         ikind= 2 (please refer to handbook)
@@ -17,7 +17,7 @@
 
 -------------------------  integration information  --------------------------
 
-       Computation time[hour]:   0.02103
+       Computation time[hour]:   0.02161
 
              Output file name:   Output file: sample_results\sample_dg_topo.dat 
 
